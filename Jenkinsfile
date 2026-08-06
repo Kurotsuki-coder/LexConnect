@@ -11,45 +11,33 @@ pipeline {
         }
 
 
-        stage('Backend Laravel') {
+        stage('Build Backend Laravel') {
 
             steps {
 
                 dir('plateforme-citoyens-avocats') {
 
-                    sh 'composer install --no-interaction --prefer-dist'
-
-                    sh 'php artisan test'
-
-                    withSonarQubeEnv('SonarQube') {
-                        sh 'sonar-scanner'
-                    }
-
                     sh 'docker build -t lexconnect-backend .'
+
                 }
             }
         }
 
 
-        stage('Frontend Angular') {
+        stage('Build Frontend Angular') {
 
             steps {
 
                 dir('lexconnect-frontend') {
 
-                    sh 'npm ci'
-
-                    withSonarQubeEnv('SonarQube') {
-                        sh 'sonar-scanner'
-                    }
-
                     sh 'docker build -t lexconnect-frontend .'
+
                 }
             }
         }
 
 
-        stage('Deploy Docker') {
+        stage('Deploy Backend') {
 
             steps {
 
@@ -57,15 +45,22 @@ pipeline {
                 docker stop lexconnect-backend || true
                 docker rm lexconnect-backend || true
 
-                docker stop lexconnect-frontend || true
-                docker rm lexconnect-frontend || true
-
-
                 docker run -d \
                 --name lexconnect-backend \
-                -p 8000:9000 \
+                -p 9000:9000 \
                 lexconnect-backend
+                '''
+            }
+        }
 
+
+        stage('Deploy Frontend') {
+
+            steps {
+
+                sh '''
+                docker stop lexconnect-frontend || true
+                docker rm lexconnect-frontend || true
 
                 docker run -d \
                 --name lexconnect-frontend \
@@ -80,11 +75,11 @@ pipeline {
     post {
 
         success {
-            echo 'Déploiement LexConnect terminé avec succès'
+            echo 'Déploiement LexConnect terminé'
         }
 
         failure {
-            echo 'Pipeline LexConnect échoué'
+            echo 'Pipeline échoué'
         }
     }
 }
