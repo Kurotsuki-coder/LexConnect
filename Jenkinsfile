@@ -4,13 +4,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-
         stage('Build Backend Laravel') {
 
             steps {
@@ -47,7 +40,7 @@ pipeline {
 
                 docker run -d \
                 --name lexconnect-backend \
-                -p 9000:9000 \
+                -p 8000:9000 \
                 lexconnect-backend
                 '''
             }
@@ -75,11 +68,16 @@ pipeline {
     post {
 
         success {
-            echo 'Déploiement LexConnect terminé'
+
+            echo 'Déploiement LexConnect réussi 🚀'
+
         }
 
+
         failure {
-            echo 'Pipeline échoué'
+
+            echo 'Pipeline LexConnect échoué'
+
         }
     }
 }
