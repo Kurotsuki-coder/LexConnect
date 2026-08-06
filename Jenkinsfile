@@ -2,7 +2,13 @@ pipeline {
 
     agent any
 
+    environment {
+        SONAR_SCANNER = tool 'SonarScanner'
+    }
+
+
     stages {
+
 
         stage('Build Backend Laravel') {
 
@@ -15,6 +21,7 @@ pipeline {
                 }
             }
         }
+
 
 
         stage('Build Frontend Angular') {
@@ -30,6 +37,41 @@ pipeline {
         }
 
 
+
+        stage('SonarQube Backend') {
+
+            steps {
+
+                dir('plateforme-citoyens-avocats') {
+
+                    withSonarQubeEnv('SonarQube') {
+
+                        sh '${SONAR_SCANNER}/bin/sonar-scanner'
+
+                    }
+                }
+            }
+        }
+
+
+
+        stage('SonarQube Frontend') {
+
+            steps {
+
+                dir('lexconnect-frontend') {
+
+                    withSonarQubeEnv('SonarQube') {
+
+                        sh '${SONAR_SCANNER}/bin/sonar-scanner'
+
+                    }
+                }
+            }
+        }
+
+
+
         stage('Deploy Backend') {
 
             steps {
@@ -43,8 +85,10 @@ pipeline {
                 -p 8000:9000 \
                 lexconnect-backend
                 '''
+
             }
         }
+
 
 
         stage('Deploy Frontend') {
@@ -60,8 +104,10 @@ pipeline {
                 -p 4200:80 \
                 lexconnect-frontend
                 '''
+
             }
         }
+
     }
 
 
@@ -69,15 +115,17 @@ pipeline {
 
         success {
 
-            echo 'Déploiement LexConnect réussi 🚀'
+            echo 'LexConnect Pipeline terminé avec succès'
 
         }
 
 
         failure {
 
-            echo 'Pipeline LexConnect échoué'
+            echo 'Erreur dans le pipeline'
 
         }
+
     }
+
 }
