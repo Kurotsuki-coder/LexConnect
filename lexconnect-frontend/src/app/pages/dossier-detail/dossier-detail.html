@@ -1,0 +1,122 @@
+<div class="page" *ngIf="!loading() && dossier() as d">
+  <button class="back" (click)="retourDashboard()">← Retour</button>
+
+  <div class="detail-card">
+    <div class="header">
+      <div>
+        <p class="eyebrow">Mon dossier juridique</p>
+        <h1>{{ d.motif }}</h1>
+      </div>
+
+      <span class="status" [ngClass]="d.statut_dossier">
+        {{ d.statut_dossier === 'ouvert' ? 'En attente' : d.statut_dossier === 'en_cours' ? 'En cours' : 'Clôturé' }}
+      </span>
+    </div>
+
+    <div class="infos">
+      <div class="info-box">
+        <p>Description</p>
+        <span>{{ d.description }}</span>
+      </div>
+
+      <div class="info-box" *ngIf="d.budget">
+        <p>Budget</p>
+        <span>{{ d.budget }} FCFA</span>
+      </div>
+
+      <div class="info-box">
+        <p>Urgence</p>
+        <span>{{ d.niveau_urgence === 1 ? 'Faible' : d.niveau_urgence === 2 ? 'Normale' : d.niveau_urgence === 3 ? 'Urgente' : 'Critique' }}</span>
+      </div>
+    </div>
+
+    <div class="actions" *ngIf="d.statut_dossier === 'ouvert'">
+      <button class="edit" (click)="startEdit()">Modifier</button>
+      <button class="delete" (click)="supprimer()">Supprimer</button>
+    </div>
+
+    <div class="progress" *ngIf="d.statut_dossier === 'en_cours'">
+      <div class="icon">⚖</div>
+      <div>
+        <h3>Dossier pris en charge</h3>
+        <p>Un avocat travaille actuellement sur votre demande.</p>
+      </div>
+    </div>
+
+    <div class="propositions" *ngIf="d.statut_dossier === 'ouvert' && d.demandes.length">
+      <h2>Avocats intéressés</h2>
+      <p class="subtitle">{{ d.demandes.length }} proposition(s) reçue(s)</p>
+
+      <div class="proposal-card" *ngFor="let p of d.demandes">
+        <div class="lawyer">
+          <div class="avatar">
+            {{ p.avocat.utilisateur.prenom.charAt(0) }}{{ p.avocat.utilisateur.nom.charAt(0) }}
+          </div>
+
+          <div>
+            <h3>Me {{ p.avocat.utilisateur.prenom }} {{ p.avocat.utilisateur.nom }}</h3>
+            <p *ngIf="p.avocat.profil?.specialites">{{ p.avocat.profil?.specialites }}</p>
+          </div>
+
+          <span class="badge" [ngClass]="p.statut_demande">{{ p.statut_demande }}</span>
+        </div>
+
+        <p class="message" *ngIf="p.message">"{{ p.message }}"</p>
+
+        <div class="proposal-buttons" *ngIf="p.statut_demande === 'envoyee'">
+          <button class="accept" (click)="accepterProposition(p.id_demande)">✓ Accepter</button>
+          <button class="reject" (click)="refuserProposition(p.id_demande)">✕ Refuser</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="avis-box" *ngIf="d.statut_dossier === 'cloture' && !avisEnvoye()">
+      <h2>Donner votre avis</h2>
+
+      <label>Note</label>
+      <select [(ngModel)]="note">
+        <option [ngValue]="5">★★★★★ Excellent</option>
+        <option [ngValue]="4">★★★★ Très bien</option>
+        <option [ngValue]="3">★★★ Correct</option>
+        <option [ngValue]="2">★★ Décevant</option>
+        <option [ngValue]="1">★ Mauvais</option>
+      </select>
+
+      <label>Commentaire</label>
+      <textarea [(ngModel)]="commentaire" rows="4"></textarea>
+
+      <button class="send-review" (click)="envoyerAvis()">Envoyer mon avis</button>
+    </div>
+
+    <p class="success" *ngIf="avisEnvoye()">Merci pour votre avis.</p>
+    <p class="error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  </div>
+
+  <form class="edit-form" *ngIf="editing()" (ngSubmit)="saveEdit()">
+    <h2>Modifier le dossier</h2>
+
+    <label>Motif</label>
+    <input [(ngModel)]="motif" name="motif">
+
+    <label>Description</label>
+    <textarea [(ngModel)]="description" name="description"></textarea>
+
+    <label>Budget</label>
+    <input type="number" [(ngModel)]="budget" name="budget">
+
+    <label>Urgence</label>
+    <select [(ngModel)]="niveau_urgence" name="niveau_urgence">
+      <option [ngValue]="1">Faible</option>
+      <option [ngValue]="2">Normale</option>
+      <option [ngValue]="3">Urgente</option>
+      <option [ngValue]="4">Critique</option>
+    </select>
+
+    <div class="actions">
+      <button class="edit">Sauvegarder</button>
+      <button type="button" class="delete" (click)="cancelEdit()">Annuler</button>
+    </div>
+  </form>
+</div>
+
+<p *ngIf="loading()" class="loading">Chargement...</p>

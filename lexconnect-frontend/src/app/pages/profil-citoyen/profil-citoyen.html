@@ -1,0 +1,159 @@
+<div class="page">
+
+  <div class="profile-header">
+    <p class="eyebrow">Mon profil</p>
+    <h1>{{ prenom }} {{ nom }}</h1>
+    <p class="subtitle">Gérez vos informations personnelles et les paramètres de votre compte.</p>
+  </div>
+
+  <div class="identity-card">
+    <div class="avatar">{{ initials }}</div>
+    <div class="identity-info">
+      <h2>{{ prenom }} {{ nom }}</h2>
+      <p>{{ email }}</p>
+    </div>
+  </div>
+
+  <div class="content-grid">
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Informations personnelles</h3>
+      </div>
+
+      <div class="info-row">
+        <div><span class="label">Prénom</span><p>{{ prenom }}</p></div>
+        <span>👤</span>
+      </div>
+
+      <div class="info-row">
+        <div><span class="label">Nom</span><p>{{ nom }}</p></div>
+        <span>👤</span>
+      </div>
+
+      <div class="info-row">
+        <div><span class="label">Email</span><p>{{ email }}</p></div>
+        <span>✉️</span>
+      </div>
+
+      <div class="info-row">
+        <div><span class="label">Téléphone</span><p>{{ telephone || 'Non renseigné' }}</p></div>
+        <span>📞</span>
+      </div>
+
+      <div class="info-row">
+        <div><span class="label">Région</span><p>{{ region }}</p></div>
+        <span>📍</span>
+      </div>
+
+      <div class="info-row">
+        <div><span class="label">Mot de passe</span><p>••••••••••••</p></div>
+        <span>🔑</span>
+      </div>
+
+      <button class="btn-gold" (click)="startEdit()">Modifier mes informations</button>
+
+      <p class="saved" *ngIf="savedMessage()">{{ savedMessage() }}</p>
+    </div>
+
+    <div class="security-card">
+      <div class="card-header">
+        <h3>Sécurité</h3>
+      </div>
+      <p>Votre compte et vos données sont protégés.</p>
+      <div class="security-item">🔒 Compte sécurisé</div>
+      <div class="security-item">📁 Dossiers sauvegardés</div>
+      <div class="security-item">⚖️ Recherche d'avocat</div>
+    </div>
+
+  </div>
+
+  <!-- FORMULAIRE MODIFICATION -->
+  <form class="edit-card" *ngIf="editing()" (ngSubmit)="save()">
+    <div class="card-header"><h3>Modifier mes informations</h3></div>
+
+    <div class="form-grid">
+      <div>
+        <label>Prénom</label>
+        <input type="text" [(ngModel)]="prenom" name="prenom" required>
+      </div>
+      <div>
+        <label>Nom</label>
+        <input type="text" [(ngModel)]="nom" name="nom" required>
+      </div>
+      <div>
+        <label>Téléphone</label>
+        <input type="text" [(ngModel)]="telephone" name="telephone">
+      </div>
+      <div>
+        <label>Région</label>
+        <select [(ngModel)]="region" name="region">
+          <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+    </div>
+
+    <a class="link-password" (click)="togglePasswordFields()">
+      {{ showPasswordFields() ? '− Annuler le changement de mot de passe' : '+ Modifier le mot de passe' }}
+    </a>
+
+    <div class="password-fields" *ngIf="showPasswordFields()">
+      <label>Ancien mot de passe</label>
+      <input type="password" [(ngModel)]="currentPassword" name="currentPassword" placeholder="Veuillez entrer l'ancien mot de passe">
+
+      <label>Nouveau mot de passe</label>
+      <input type="password" [(ngModel)]="newPassword" name="newPassword" placeholder="Veuillez entrer le nouveau mot de passe">
+
+      <label>Confirmer le nouveau mot de passe</label>
+      <input type="password" [(ngModel)]="newPasswordConfirmation" name="newPasswordConfirmation" placeholder="Confirmez le nouveau mot de passe">
+
+      <p class="error" *ngIf="passwordError()">{{ passwordError() }}</p>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-save">Enregistrer</button>
+      <button type="button" class="btn-cancel" (click)="cancelEdit()">Annuler</button>
+    </div>
+  </form>
+
+  <div class="danger-zone">
+    <div class="danger-icon">⚠️</div>
+    <div>
+      <p class="danger-title">Zone dangereuse</p>
+      <p class="danger-text">Supprimer votre compte supprimera définitivement votre profil ainsi que tous vos dossiers.</p>
+      <button class="btn-danger" (click)="openDeleteModal()">Supprimer le compte</button>
+    </div>
+  </div>
+
+  <!-- MODALE DE CONFIRMATION SUPPRESSION -->
+  <div class="modal-overlay" *ngIf="showDeleteModal()" (click)="closeDeleteModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+
+      <div class="modal-icon">⚠️</div>
+      <h3>Supprimer définitivement votre compte ?</h3>
+      <p class="modal-text">
+        Cette action est <strong>irréversible</strong>. Tous vos dossiers et données seront perdus.
+      </p>
+
+      <label class="modal-label">
+        Tapez <strong>SUPPRIMER</strong> pour confirmer
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="deleteConfirmText"
+        name="deleteConfirmText"
+        placeholder="SUPPRIMER"
+        class="modal-input"
+      >
+
+      <p class="modal-error" *ngIf="deleteError()">{{ deleteError() }}</p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" (click)="closeDeleteModal()">Annuler</button>
+        <button type="button" class="btn-danger" (click)="confirmDeleteAccount()">Confirmer la suppression</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

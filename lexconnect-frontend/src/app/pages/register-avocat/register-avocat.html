@@ -1,0 +1,45 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h1>LexConnect</h1>
+    <p class="subtitle">Créer un compte Avocat</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <label>Nom</label>
+      <input type="text" [(ngModel)]="nom" name="nom" required />
+
+      <label>Prénom</label>
+      <input type="text" [(ngModel)]="prenom" name="prenom" required />
+
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" name="email" required />
+
+      <label>Téléphone</label>
+      <input type="text" [(ngModel)]="telephone" name="telephone" />
+
+      <label>Région</label>
+      <select [(ngModel)]="region" name="region" required>
+        <option value="">-- Sélectionner --</option>
+        <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+      </select>
+
+      <label>Numéro de barreau</label>
+      <input type="text" [(ngModel)]="numero_barre" name="numero_barre" required placeholder="Ex : SN-2024-00123" />
+
+      <label>Mot de passe</label>
+      <input type="password" [(ngModel)]="password" name="password" required />
+
+      <label>Confirmer le mot de passe</label>
+      <input type="password" [(ngModel)]="password_confirmation" name="password_confirmation" required />
+
+      <p class="info">Ton inscription sera examinée par un administrateur avant activation.</p>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+
+    <p class="footer-link">
+      Déjà inscrit ? <a routerLink="/login">Se connecter</a>
+    </p>
+  </div>
+</div>

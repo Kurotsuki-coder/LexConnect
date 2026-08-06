@@ -1,0 +1,49 @@
+.page {
+  padding: 2rem 2.5rem;
+  font-family: 'Figtree', sans-serif;
+}
+.eyebrow { font-size: 0.7rem; color: #C9A15A; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; font-weight: 700; }
+h1 { font-family: 'Playfair Display', serif; color: #0F1B2E; font-size: 1.6rem; margin: 0.25rem 0 1.5rem; }
+
+.threads {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.thread {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #F0ECE0;
+
+  &:hover { background-color: #FAF8F3; }
+  &:last-child { border-bottom: none; }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #0F1B2E;
+    color: #C9A15A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .name { font-weight: 700; margin: 0; font-size: 0.9rem; color: #0F1B2E; }
+  .preview { font-size: 0.8rem; color: #8B96A8; margin: 2px 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+.empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+
+  .empty-title { font-family: 'Playfair Display', serif; font-weight: 700; color: #0F1B2E; margin: 0 0 4px; }
+  .empty-body { font-size: 0.85rem; color: #8B96A8; margin: 0; }
+}

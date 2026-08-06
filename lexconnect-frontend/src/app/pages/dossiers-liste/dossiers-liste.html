@@ -1,0 +1,133 @@
+<div class="page">
+
+<div class="header">
+<div>
+<p class="eyebrow">Dossiers</p>
+<h1>Mes dossiers</h1>
+</div>
+
+<a routerLink="/dashboard/citoyen/dossiers/nouveau" class="btn-gold">
++ Nouveau dossier
+</a>
+
+</div>
+
+
+<div class="tabs">
+
+<button [class.active]="filtre()==='tous'" (click)="setFiltre('tous')">
+Tous
+</button>
+
+<button [class.active]="filtre()==='en_cours'" (click)="setFiltre('en_cours')">
+En cours
+</button>
+
+<button [class.active]="filtre()==='ouvert'" (click)="setFiltre('ouvert')">
+En attente
+</button>
+
+<button [class.active]="filtre()==='cloture'" (click)="setFiltre('cloture')">
+Clôturés
+</button>
+
+</div>
+
+
+<p *ngIf="loading()" class="loading">
+Chargement...
+</p>
+
+
+<div class="products" *ngIf="!loading()">
+
+
+<div
+class="card"
+*ngFor="let d of filtered()"
+[ngClass]="{
+faible:d.niveau_urgence===1,
+normal:d.niveau_urgence===2,
+urgent:d.niveau_urgence===3,
+critique:d.niveau_urgence===4
+}"
+>
+
+
+<div>
+
+<div class="card-header">
+
+<h2>
+{{d.motif}}
+</h2>
+
+
+<div class="badges">
+
+<span
+class="urgence"
+[ngClass]="{
+faible:d.niveau_urgence===1,
+normal:d.niveau_urgence===2,
+urgent:d.niveau_urgence===3,
+critique:d.niveau_urgence===4
+}">
+
+{{
+d.niveau_urgence===1?'Faible':
+d.niveau_urgence===2?'Normale':
+d.niveau_urgence===3?'Urgente':
+'Critique'
+}}
+
+</span>
+
+
+<span
+class="statut"
+[ngClass]="d.statut_dossier">
+
+{{statutLabels[d.statut_dossier]}}
+
+</span>
+
+</div>
+
+</div>
+
+
+
+<p class="description">
+{{d.description}}
+</p>
+
+
+</div>
+
+
+
+<button
+class="btn-details"
+[routerLink]="['/dashboard/citoyen/dossiers',d.id_dossier]">
+
+Voir plus
+
+</button>
+
+
+</div>
+
+
+<p
+class="empty"
+*ngIf="filtered().length===0">
+
+Aucun dossier dans cette catégorie.
+
+</p>
+
+
+</div>
+
+</div>

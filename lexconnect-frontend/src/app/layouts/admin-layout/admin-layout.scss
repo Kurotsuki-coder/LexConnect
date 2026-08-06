@@ -1,0 +1,89 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Figtree', sans-serif;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background-color: #0F1B2E;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  padding: 0 1.5rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #C9A15A;
+    font-size: 1.3rem;
+  }
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 1.5rem;
+  margin-bottom: 1rem;
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #C9A15A;
+    color: #0F1B2E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .profile-name { color: white; font-size: 0.85rem; font-weight: 600; margin: 0; }
+  .profile-role { color: #8B96A8; font-size: 0.7rem; margin: 0; }
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 0.75rem;
+  flex: 1;
+
+  a {
+    padding: 0.6rem 0.85rem;
+    border-radius: 6px;
+    color: #A8B2C2;
+    text-decoration: none;
+    font-size: 0.85rem;
+
+    &:hover { background-color: rgba(255, 255, 255, 0.06); }
+    &.active { background-color: rgba(201, 161, 90, 0.15); color: #C9A15A; font-weight: 600; }
+  }
+}
+
+.logout {
+  margin: 0 0.75rem;
+  padding: 0.6rem;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #A8B2C2;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+
+  &:hover { background-color: rgba(255, 255, 255, 0.06); color: white; }
+}
+
+.content {
+  flex: 1;
+  background-color: #F5F1E8;
+  overflow-y: auto;
+}

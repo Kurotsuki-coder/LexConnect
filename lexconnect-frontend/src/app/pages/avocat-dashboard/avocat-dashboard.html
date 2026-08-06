@@ -1,0 +1,403 @@
+<div class="page">
+
+  <!-- BIENVENUE -->
+
+  <section class="welcome">
+
+    <div>
+
+      <p class="eyebrow">Tableau de bord avocat</p>
+
+      <h1>Bonjour {{prenom()}} 👋</h1>
+
+      <p class="date">{{today()}}</p>
+
+      <p class="welcome-text">
+        Retrouvez vos nouvelles demandes, gérez vos dossiers et accompagnez vos
+        clients avec efficacité.
+      </p>
+
+    </div>
+
+    <a routerLink="/dashboard/avocat/demandes" class="btn-main">
+      📩 Voir les demandes
+    </a>
+
+  </section>
+
+
+  <!-- STATISTIQUES -->
+
+  <section class="stats">
+
+    <div class="stat">
+
+      <div class="icon gold">
+        📨
+      </div>
+
+      <div>
+        <p class="value">
+          {{stats().demandes_en_attente}}
+        </p>
+
+        <p class="label">
+          Demandes reçues
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="icon blue">
+        📁
+      </div>
+
+      <div>
+        <p class="value">
+          {{stats().dossiers_en_cours}}
+        </p>
+
+        <p class="label">
+          Dossiers actifs
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="icon green">
+        ✅
+      </div>
+
+      <div>
+        <p class="value">
+          {{stats().dossiers_resolus}}
+        </p>
+
+        <p class="label">
+          Dossiers résolus
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="icon purple">
+        ⭐
+      </div>
+
+      <div>
+
+        <p class="value">
+          {{stats().note_moyenne || '—'}}
+          <span *ngIf="stats().note_moyenne">/5</span>
+        </p>
+
+        <p class="label">
+          {{stats().nombre_avis}} avis
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ACTIONS RAPIDES -->
+
+  <section class="quick">
+
+    <h2>Actions rapides</h2>
+
+    <div class="quick-grid">
+
+      <a routerLink="/dashboard/avocat/demandes">
+        📨 Voir les demandes
+      </a>
+
+      <a routerLink="/dashboard/avocat/dossiers">
+        📁 Mes dossiers
+      </a>
+
+      <a routerLink="/dashboard/avocat/messages">
+        💬 Messages
+      </a>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- DEMANDES -->
+
+  <section>
+
+    <div class="section-header">
+
+      <h2>Demandes récentes</h2>
+
+      <a routerLink="/dashboard/avocat/demandes">
+        Voir tout
+      </a>
+
+    </div>
+
+
+    <p *ngIf="loading()">
+      Chargement...
+    </p>
+
+
+    <div class="list" *ngIf="!loading()">
+
+
+
+      <div
+        class="card"
+        *ngFor="let d of demandes()">
+
+        <div class="card-top">
+
+          <div class="avatar">
+            {{initials(d)}}
+          </div>
+
+
+          <div class="body">
+
+            <div class="title">
+
+              <h3>
+
+                {{d.dossier.citoyen.utilisateur.prenom}}
+                {{d.dossier.citoyen.utilisateur.nom}}
+
+              </h3>
+
+
+              <span
+                class="status"
+                [ngClass]="d.statut_demande">
+
+                {{
+                d.statut_demande==='envoyee'
+                ? 'En attente'
+                : d.statut_demande==='acceptee'
+                ? 'Acceptée'
+                : 'Refusée'
+                }}
+
+              </span>
+
+
+              <span
+                class="urgence"
+                [ngClass]="{
+
+                  'faible':d.dossier.niveau_urgence===1,
+                  'normale':d.dossier.niveau_urgence===2,
+                  'urgente':d.dossier.niveau_urgence===3,
+                  'critique':d.dossier.niveau_urgence===4
+
+                }">
+
+                {{
+
+                d.dossier.niveau_urgence===1 ? 'Faible' :
+
+                d.dossier.niveau_urgence===2 ? 'Normale' :
+
+                d.dossier.niveau_urgence===3 ? 'Urgente' :
+
+                'Critique'
+
+                }}
+
+              </span>
+
+            </div>
+
+
+            <p>
+
+              <strong>{{d.dossier.motif}}</strong>
+
+              <span *ngIf="d.dossier.budget">
+                • {{d.dossier.budget}} FCFA
+              </span>
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="voir-container">
+
+          <button
+            class="voir"
+            (click)="voirPlus(d.id_demande)">
+
+            {{
+            demandeOuverte()===d.id_demande
+            ? 'Voir moins ▲'
+            : 'Voir plus ▼'
+            }}
+
+          </button>
+
+        </div>
+
+
+
+
+        <div
+          class="details"
+          *ngIf="demandeOuverte()===d.id_demande">
+
+          <h3>
+            Informations du dossier
+          </h3>
+
+
+          <p>
+
+            <strong>Motif :</strong>
+
+            {{d.dossier.motif}}
+
+          </p>
+
+
+          <p>
+
+            <strong>Description :</strong>
+
+            {{d.dossier.description}}
+
+          </p>
+
+
+          <p *ngIf="d.dossier.budget">
+
+            <strong>Budget :</strong>
+
+            {{d.dossier.budget}} FCFA
+
+          </p>
+
+
+          <p>
+
+            <strong>Urgence :</strong>
+
+            {{urgence(d.dossier.niveau_urgence)}}
+
+          </p>
+
+
+          <p>
+
+            <strong>Statut :</strong>
+
+            {{d.dossier.statut_dossier}}
+
+          </p>
+
+
+          <p *ngIf="d.message">
+
+            <strong>Message du citoyen :</strong>
+
+            "{{d.message}}"
+
+          </p>
+
+
+
+          <div
+            class="actions"
+            *ngIf="d.statut_demande==='envoyee'">
+
+            <button
+              class="btn-accepter"
+              (click)="accepter(d.id_demande)">
+
+              Accepter
+
+            </button>
+
+
+            <button
+              class="btn-refuser"
+              (click)="refuser(d.id_demande)">
+
+              Refuser
+
+            </button>
+
+          </div>
+
+
+
+          <div
+            class="actions"
+            *ngIf="d.statut_demande==='acceptee' && d.dossier.statut_dossier==='en_cours'">
+
+            <button
+              class="btn-resoudre"
+              (click)="resoudre(d.id_dossier)">
+
+              Marquer comme résolu
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <p
+          class="resolu"
+          *ngIf="d.dossier.statut_dossier==='cloture'">
+
+          ✅ Dossier résolu
+
+        </p>
+
+      </div>
+
+
+
+      <div
+        class="empty"
+        *ngIf="demandes().length===0">
+
+        <h3>
+          Aucune demande
+        </h3>
+
+        <p>
+          Les nouvelles demandes de citoyens apparaîtront ici.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

@@ -1,0 +1,20 @@
+# Laravel
+/vendor/
+/node_modules/
+/.env
+.env
+/storage/*.key
+/public/storage
+
+# Angular
+lexconnect-frontend/node_modules/
+lexconnect-frontend/dist/
+lexconnect-frontend/.angular/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

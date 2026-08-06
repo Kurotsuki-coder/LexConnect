@@ -1,0 +1,84 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 27, 46, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  font-family: 'Figtree', sans-serif;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.3);
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    color: #0F1B2E;
+    margin: 0 0 0.35rem;
+    font-size: 1.15rem;
+  }
+
+  .hint {
+    color: #8B96A8;
+    font-size: 0.8rem;
+    margin: 0 0 1rem;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #E5E0D4;
+    border-radius: 8px;
+    background: #FAF8F3;
+    font-size: 0.9rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+
+  .error {
+    color: #C0392B;
+    font-size: 0.8rem;
+    margin: 0.5rem 0 0;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 1.25rem;
+  }
+
+  .btn-cancel {
+    background: white;
+    color: #0F1B2E;
+    border: 1px solid #D8D2C4;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
+  .btn-confirm {
+    background: #0F1B2E;
+    color: #C9A15A;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+
+    &.danger {
+      background: #C0392B;
+      color: white;
+    }
+  }
+}

@@ -1,0 +1,106 @@
+<div class="page">
+
+  <div class="header">
+    <p class="eyebrow">Messagerie</p>
+
+    <h1>Messages</h1>
+
+    <p class="subtitle">
+      Échangez directement avec les avocats qui suivent vos dossiers.
+    </p>
+  </div>
+
+
+
+  <p class="loading" *ngIf="loading()">
+    Chargement...
+  </p>
+
+
+
+
+  <div class="messages-container" *ngIf="!loading()">
+
+
+
+    <a
+    *ngFor="let t of threads()"
+    [routerLink]="['/dashboard/citoyen/messages', t.id_dossier]"
+    class="thread">
+
+
+      <div class="avatar">
+        {{ initials(t) }}
+      </div>
+
+
+
+      <div class="thread-body">
+
+        <div class="top">
+
+          <p class="name">
+            Me {{ t.prenom }} {{ t.nom }}
+          </p>
+
+          <span class="status">
+            ● Actif
+          </span>
+
+        </div>
+
+
+
+        <p class="preview">
+
+          {{ t.dernier_message ||
+          'Aucun message pour l\'instant — dites bonjour à votre avocat.' }}
+
+        </p>
+
+
+      </div>
+
+
+
+      <div class="arrow">
+        →
+      </div>
+
+
+
+    </a>
+
+
+
+
+
+    <div
+      class="empty"
+      *ngIf="threads().length === 0">
+
+
+      <div class="empty-icon">
+        💬
+      </div>
+
+
+      <p class="empty-title">
+        Aucune discussion
+      </p>
+
+
+      <p class="empty-body">
+        Une conversation sera créée automatiquement
+        lorsqu'un avocat acceptera votre demande.
+      </p>
+
+
+    </div>
+
+
+
+  </div>
+
+
+</div>

@@ -1,0 +1,127 @@
+<div class="page">
+  <p class="eyebrow">Tableau de bord</p>
+  <h1>Administration</h1>
+
+  <div class="stats">
+    <div class="stat stat-blue">
+      <p class="value">{{ stats().total_citoyens }}</p>
+      <p class="label">Citoyens</p>
+    </div>
+
+    <div class="stat stat-gold">
+      <p class="value">{{ stats().total_avocats }}</p>
+      <p class="label">Avocats actifs</p>
+    </div>
+
+    <div class="stat stat-warning">
+      <p class="value">{{ stats().avocats_en_attente }}</p>
+      <p class="label">En attente</p>
+    </div>
+
+    <div class="stat stat-danger">
+      <p class="value">{{ stats().comptes_suspendus }}</p>
+      <p class="label">Suspendus</p>
+    </div>
+  </div>
+
+  <h2>Avocats en attente de validation</h2>
+
+  <p *ngIf="loading()">Chargement...</p>
+
+  <div class="list" *ngIf="!loading()">
+
+    <div class="pending-card" *ngFor="let u of avocatsEnAttente()">
+
+      <div class="row">
+        <div class="avatar">
+          {{ initials(u) }}
+        </div>
+
+        <div class="body">
+          <p class="name">Me {{ u.prenom }} {{ u.nom }}</p>
+
+          <p class="detail">
+            {{ u.email }} — {{ u.region }}
+            <span *ngIf="u.telephone">
+              — {{ u.telephone }}
+            </span>
+          </p>
+        </div>
+
+        <button class="btn-detail" (click)="toggleDetail(u.id_utilisateur)">
+          {{ expandedId()===u.id_utilisateur ? 'Masquer les infos' : 'Voir les infos' }}
+        </button>
+      </div>
+
+
+      <div class="detail-panel" *ngIf="expandedId()===u.id_utilisateur">
+
+        <div class="detail-item">
+          <span class="label">Nom complet :</span>
+          <span class="value-strong">
+            {{ u.prenom }} {{ u.nom }}
+          </span>
+        </div>
+
+
+        <div class="detail-item">
+          <span class="label">Adresse e-mail :</span>
+          <span class="value-strong">
+            {{ u.email }}
+          </span>
+        </div>
+
+
+        <div class="detail-item">
+          <span class="label">Téléphone :</span>
+          <span class="value-strong">
+            {{ u.telephone }}
+          </span>
+        </div>
+
+
+        <div class="detail-item">
+          <span class="label">Région :</span>
+          <span class="value-strong">
+            {{ u.region }}
+          </span>
+        </div>
+
+
+        <div class="detail-item">
+          <span class="label">Numéro de barreau :</span>
+          <span class="value-strong">{{numeroBarre(u)}}</span>
+        </div>
+
+
+        <div class="actions">
+          <button class="btn-valider" (click)="valider(u.id_utilisateur)">
+            Valider
+          </button>
+
+          <button class="btn-refuser" (click)="refuser(u.id_utilisateur)">
+            Refuser
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <p class="empty" *ngIf="avocatsEnAttente().length===0">
+      Aucune inscription en attente.
+    </p>
+
+  </div>
+</div>
+
+
+<app-motif-modal
+  [visible]="modalVisible()"
+  title="Refuser cette inscription"
+  actionLabel="Refuser"
+  [dangerAction]="true"
+  (confirmed)="onModalConfirm($event)"
+  (cancelled)="onModalCancel()"
+/>

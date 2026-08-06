@@ -1,0 +1,173 @@
+<div class="page">
+
+<section class="welcome">
+
+<div>
+<p class="eyebrow">Tableau de bord citoyen</p>
+
+<h1>Bonjour {{prenom()}} 👋</h1>
+
+<p class="date">{{today()}}</p>
+
+<p class="welcome-text">
+Gérez vos dossiers juridiques, échangez avec vos avocats et suivez vos demandes.
+</p>
+
+</div>
+
+<a routerLink="/dashboard/citoyen/dossiers/nouveau" class="btn-main">
++ Nouveau dossier
+</a>
+
+</section>
+
+
+<section class="stats">
+
+<div class="stat">
+<div class="icon blue">📁</div>
+<div>
+<p class="value">{{stats().actifs}}</p>
+<p class="label">Dossiers actifs</p>
+</div>
+</div>
+
+<div class="stat">
+<div class="icon red">⚠️</div>
+<div>
+<p class="value">{{stats().urgents}}</p>
+<p class="label">Urgents</p>
+</div>
+</div>
+
+<div class="stat">
+<div class="icon gold">⚖️</div>
+<div>
+<p class="value">{{stats().demandes_acceptees}}</p>
+<p class="label">Avocats trouvés</p>
+</div>
+</div>
+
+<div class="stat">
+<div class="icon purple">💬</div>
+<div>
+<p class="value">{{stats().messages}}</p>
+<p class="label">Messages</p>
+</div>
+</div>
+
+</section>
+
+
+<section class="quick">
+
+<h2>Actions rapides</h2>
+
+<div class="quick-grid">
+
+<a routerLink="/dashboard/citoyen/dossiers/nouveau">
+📄 Nouveau dossier
+</a>
+
+<a routerLink="/dashboard/citoyen/avocats">
+⚖️ Trouver un avocat
+</a>
+
+<a routerLink="/dashboard/citoyen/messages">
+💬 Messages
+</a>
+
+</div>
+
+</section>
+
+
+<section>
+
+<div class="section-header">
+
+<h2>Dossiers récents</h2>
+
+<a routerLink="/dashboard/citoyen/dossiers">
+Voir tout
+</a>
+
+</div>
+
+
+<p *ngIf="loading()">Chargement...</p>
+
+
+<div *ngIf="!loading()" class="list">
+
+
+<a
+*ngFor="let d of dossiers()"
+class="dossier"
+[ngClass]="{
+'faible':d.niveau_urgence===1,
+'normale':d.niveau_urgence===2,
+'urgente':d.niveau_urgence===3,
+'critique':d.niveau_urgence===4
+}"
+[routerLink]="['/dashboard/citoyen/dossiers',d.id_dossier]"
+>
+
+
+<div class="folder">
+📁
+</div>
+
+
+<div class="body">
+
+<div class="title">
+
+<h3>{{d.motif}}</h3>
+
+
+<span class="status" [ngClass]="d.statut_dossier">
+{{statutLabels[d.statut_dossier]}}
+</span>
+
+
+<span class="urgence">
+{{
+d.niveau_urgence===1?'Faible':
+d.niveau_urgence===2?'Normale':
+d.niveau_urgence===3?'Urgente':
+'Critique'
+}}
+</span>
+
+</div>
+
+
+<p>
+{{d.description}}
+</p>
+
+
+</div>
+
+
+</a>
+
+
+</div>
+
+
+<div class="empty" *ngIf="!loading() && dossiers().length===0">
+
+<h3>Aucun dossier</h3>
+
+<p>
+Commencez par créer votre premier dossier juridique.
+</p>
+
+</div>
+
+
+</section>
+
+</div>

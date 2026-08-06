@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <div class="container">
+    <a [routerLink]="backLink()" class="back-link">{{ backLabel() }}</a>
+
+    <p class="eyebrow">LexConnect</p>
+    <h1>Contacter le support</h1>
+    <p class="subtitle">Une question, un souci technique ? Écris-nous, on te répond au plus vite.</p>
+
+    <div *ngIf="!envoye()">
+      <form (ngSubmit)="onSubmit()">
+        <label>Nom</label>
+        <input type="text" [(ngModel)]="nom" name="nom" required />
+
+        <label>Email</label>
+        <input type="email" [(ngModel)]="email" name="email" required />
+
+        <label>Sujet</label>
+        <input type="text" [(ngModel)]="sujet" name="sujet" required />
+
+        <label>Message</label>
+        <textarea [(ngModel)]="message" name="message" rows="5" required></textarea>
+
+        <p class="error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+        <button type="submit" class="btn-gold">Envoyer</button>
+      </form>
+    </div>
+
+    <div class="confirmation" *ngIf="envoye()">
+      <div class="icon">✅</div>
+      <h2>Message envoyé</h2>
+      <p>Merci, notre équipe te répondra dans les plus brefs délais.</p>
+      <a [routerLink]="backLink()" class="btn-gold">{{ backLabel() }}</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+.page {
+  padding: 2rem 2.5rem;
+  font-family: 'Figtree', sans-serif;
+}
+.eyebrow { font-size: 0.7rem; color: #C9A15A; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; font-weight: 700; }
+h1 { font-family: 'Playfair Display', serif; color: #0F1B2E; font-size: 1.8rem; margin: 0.25rem 0 1.5rem; }
+
+.list { display: flex; flex-direction: column; gap: 0.85rem; }
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.1rem 1.4rem;
+  border-left: 3px solid transparent;
+
+  &.nouveau { border-left-color: #C9A15A; }
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+.sujet { font-weight: 700; color: #0F1B2E; margin: 0; font-size: 0.95rem; }
+.from { font-size: 0.78rem; color: #8B96A8; margin: 2px 0 0; }
+.message { font-size: 0.85rem; color: #1F2328; margin: 0 0 0.75rem; }
+
+.badge {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.nouveau { background-color: #FBEEDD; color: #B5741D; }
+  &.traite { background-color: #EDEDEA; color: #6B6B66; }
+}
+
+.actions { display: flex; gap: 8px; }
+.btn-traiter {
+  background-color: #2F855A;
+  color: white;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-supprimer {
+  background-color: #C0392B;
+  color: white;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.empty { color: #8B96A8; font-size: 0.85rem; text-align: center; padding: 2rem; }

@@ -1,0 +1,131 @@
+<div class="page">
+<p class="eyebrow">Espace avocat</p>
+<h1>Dossiers disponibles</h1>
+
+<div class="filters">
+<input type="text" [(ngModel)]="query" (ngModelChange)="load()" placeholder="Rechercher par motif (ex: divorce, licenciement...)">
+
+<select [(ngModel)]="urgenceFiltre" (ngModelChange)="load()">
+<option value="">Toutes urgences</option>
+<option value="1">Faible</option>
+<option value="2">Normale</option>
+<option value="3">Urgente</option>
+<option value="4">Critique</option>
+</select>
+</div>
+
+<p *ngIf="loading()" class="loading">Chargement...</p>
+
+<div class="grid" *ngIf="!loading()">
+
+<div class="card" *ngFor="let d of dossiers()">
+
+<div>
+<div class="card-top">
+
+<h2 class="motif">
+{{d.motif}}
+</h2>
+
+<span class="badge" [style.background-color]="urgenceColors[d.niveau_urgence]">
+{{urgenceLabels[d.niveau_urgence]}}
+</span>
+
+</div>
+
+<p class="desc">
+{{d.description}}
+</p>
+
+<p class="budget" *ngIf="d.budget">
+Budget : {{d.budget}} FCFA
+</p>
+
+<p class="citoyen">
+{{d.citoyen.utilisateur.prenom}} {{d.citoyen.utilisateur.nom}} — {{d.citoyen.utilisateur.region}}
+</p>
+
+</div>
+
+
+<div class="proposal-zone">
+
+<button
+type="button"
+class="btn-proposer"
+*ngIf="!proposalSent()[d.id_dossier] && proposalOpenFor() !== d.id_dossier"
+(click)="toggleProposal(d.id_dossier)">
+Proposer mes services
+</button>
+
+
+<div
+class="proposal-form"
+*ngIf="proposalOpenFor() === d.id_dossier">
+
+<textarea
+[(ngModel)]="proposalMessage"
+rows="3"
+placeholder="Présente-toi brièvement, explique pourquoi tu peux aider...">
+</textarea>
+
+
+<div class="proposal-actions">
+
+<button
+type="button"
+class="btn-envoyer"
+(click)="envoyerProposition(d.id_dossier)">
+Envoyer
+</button>
+
+
+<button
+type="button"
+class="btn-annuler"
+(click)="toggleProposal(d.id_dossier)">
+Annuler
+</button>
+
+
+</div>
+
+</div>
+
+
+<p
+class="proposal-error"
+*ngIf="proposalError()[d.id_dossier]">
+
+{{proposalError()[d.id_dossier]}}
+
+</p>
+
+
+<p
+class="proposal-sent"
+*ngIf="proposalSent()[d.id_dossier]">
+
+✓ {{proposalSent()[d.id_dossier]}}
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+<p
+class="empty"
+*ngIf="dossiers().length===0">
+
+Aucun dossier disponible pour l'instant.
+
+</p>
+
+
+</div>
+
+</div>

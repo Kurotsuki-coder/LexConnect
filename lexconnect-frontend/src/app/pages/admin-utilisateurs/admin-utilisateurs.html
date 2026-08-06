@@ -1,0 +1,39 @@
+<div class="page">
+  <p class="eyebrow">Utilisateurs</p>
+  <h1>Gestion des comptes</h1>
+
+  <div class="tabs">
+    <button [class.active]="filtre() === 'tous'" (click)="setFiltre('tous')">Tous</button>
+    <button [class.active]="filtre() === 'citoyen'" (click)="setFiltre('citoyen')">Citoyens</button>
+    <button [class.active]="filtre() === 'avocat'" (click)="setFiltre('avocat')">Avocats</button>
+  </div>
+
+  <p *ngIf="loading()">Chargement...</p>
+
+  <div class="list" *ngIf="!loading()">
+    <div class="row" *ngFor="let u of filtered()">
+      <div class="avatar">{{ initials(u) }}</div>
+      <div class="body">
+        <p class="name">{{ u.prenom }} {{ u.nom }} <span class="role-tag">{{ u.role }}</span></p>
+        <p class="detail">{{ u.email }}</p>
+      </div>
+      <span class="badge" [ngClass]="u.statut">{{ u.statut }}</span>
+      <div class="actions">
+        <button class="btn-suspendre" *ngIf="u.statut !== 'suspendu'" (click)="suspendre(u.id_utilisateur)">Suspendre</button>
+        <button class="btn-reactiver" *ngIf="u.statut === 'suspendu'" (click)="reactiver(u.id_utilisateur)">Réactiver</button>
+        <button class="btn-supprimer" (click)="supprimer(u.id_utilisateur)">Supprimer</button>
+      </div>
+    </div>
+
+    <p class="empty" *ngIf="filtered().length === 0">Aucun utilisateur dans cette catégorie.</p>
+  </div>
+</div>
+
+<app-motif-modal
+  [visible]="modalVisible()"
+  [title]="modalTitle()"
+  [actionLabel]="modalAction()"
+  [dangerAction]="true"
+  (confirmed)="onModalConfirm($event)"
+  (cancelled)="onModalCancel()"
+/>

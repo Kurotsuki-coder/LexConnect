@@ -1,0 +1,54 @@
+<div class="messages-page">
+  <aside class="threads-panel">
+    <div class="threads-header">
+      <p class="eyebrow">Messagerie</p>
+      <h2>Discussions</h2>
+    </div>
+
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        [ngModel]="query()"
+        (ngModelChange)="query.set($event)"
+        placeholder="Rechercher une discussion..." />
+    </div>
+
+    <p class="loading" *ngIf="loading()">Chargement...</p>
+
+    <div class="threads-list" *ngIf="!loading()">
+      <a *ngFor="let t of filteredThreads()"
+         [routerLink]="[t.id_dossier]"
+         routerLinkActive="active"
+         class="thread">
+        <div class="avatar">{{ initials(t) }}</div>
+        <div class="body">
+          <div class="top-line">
+            <p class="name">{{ t.prenom }} {{ t.nom }}</p>
+            <span class="heure" *ngIf="t.heure">{{ formatHeure(t.heure) }}</span>
+          </div>
+          <p class="preview">{{ t.dernier_message || 'Dis bonjour !' }}</p>
+        </div>
+      </a>
+
+      <div class="empty" *ngIf="filteredThreads().length === 0 && threads().length > 0">
+        <p class="empty-title">Aucun résultat</p>
+        <p class="empty-body">Essaie un autre nom.</p>
+      </div>
+
+      <div class="empty" *ngIf="threads().length === 0">
+        <p class="empty-title">Aucune discussion</p>
+        <p class="empty-body">Une messagerie s'ouvre dès qu'une demande est acceptée.</p>
+      </div>
+    </div>
+  </aside>
+
+  <section class="conversation-panel" [class.has-selection]="hasSelection()">
+    <router-outlet (activate)="hasSelection.set(true)" (deactivate)="hasSelection.set(false)"></router-outlet>
+
+    <div class="placeholder" *ngIf="!hasSelection()">
+      <div class="icon">💬</div>
+      <p>Sélectionne une discussion pour commencer</p>
+    </div>
+  </section>
+</div>

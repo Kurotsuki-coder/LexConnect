@@ -1,0 +1,67 @@
+<div class="page">
+<div class="header">
+<p class="eyebrow">Messages</p>
+<h1>Mes conversations</h1>
+<p class="subtitle">Échangez directement avec les avocats qui suivent vos dossiers.</p>
+</div>
+
+<p class="loading" *ngIf="loading()">Chargement...</p>
+
+<div class="list" *ngIf="!loading()">
+
+<a class="conversation" *ngFor="let thread of threads()" [routerLink]="['/dashboard/citoyen/chat',thread.id_utilisateur]">
+
+<div class="avatar">
+⚖️
+</div>
+
+<div class="content">
+
+<div class="top">
+
+<h3>
+Me {{thread.prenom}} {{thread.nom}}
+</h3>
+
+<span class="status">
+● Actif
+</span>
+
+</div>
+
+<p>
+{{thread.dernier_message || 'Aucun message'}}
+</p>
+
+</div>
+
+<span class="time" *ngIf="thread.heure">
+{{thread.heure}}
+</span>
+
+<span class="arrow">
+→
+</span>
+
+</a>
+
+
+<div class="empty" *ngIf="threads().length===0">
+
+<div class="empty-icon">
+💬
+</div>
+
+<h3>
+Aucune conversation
+</h3>
+
+<p>
+Une discussion sera disponible lorsqu'un avocat acceptera votre demande.
+</p>
+
+</div>
+
+
+</div>
+</div>

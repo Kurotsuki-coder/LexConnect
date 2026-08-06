@@ -1,0 +1,73 @@
+<div class="chat-card">
+
+  <div class="chat-header">
+    <button class="back" (click)="retour()">←</button>
+    <div class="header-avatar">{{ correspondantInitials() }}</div>
+    <div class="header-info">
+      <h2>{{ correspondantNom() || 'Conversation' }}</h2>
+      <p>Messagerie sécurisée LexConnect</p>
+    </div>
+  </div>
+
+  <div class="closed-banner" *ngIf="dossierFerme() && !loading()">
+    🔒 Ce dossier est clôturé. La conversation est fermée.
+  </div>
+
+  <div class="messages" #messagesContainer *ngIf="!loading()">
+
+    <ng-container *ngFor="let group of groupedMessages()">
+      <div class="date-divider"><span>{{ group.date }}</span></div>
+
+      <div
+        class="message"
+        *ngFor="let m of group.messages"
+        [ngClass]="{ 'me': m.id_expediteur === monId(), 'other': m.id_expediteur !== monId() }">
+
+        <div class="bubble" [class.file-bubble]="m.chemin_fichier">
+
+          <p *ngIf="m.contenu">{{ m.contenu }}</p>
+
+          <a *ngIf="m.chemin_fichier && isImage(m)" [href]="fileUrl(m)" target="_blank" class="image-attachment">
+            <img [src]="fileUrl(m)" [alt]="m.nom_fichier || 'image'" />
+          </a>
+
+          <div *ngIf="m.chemin_fichier && !isImage(m)" class="file-attachment">
+            <div class="file-icon">📄</div>
+            <div class="file-info">
+              <p class="file-name">{{ m.nom_fichier }}</p>
+              <p class="file-size">{{ formatTaille(m.taille_fichier) }}</p>
+            </div>
+            <div class="file-actions">
+              <a [href]="fileUrl(m)" target="_blank" class="file-btn">Ouvrir</a>
+              <a [href]="fileUrl(m)" [download]="m.nom_fichier" class="file-btn">Enregistrer sous...</a>
+            </div>
+          </div>
+
+          <span class="time">{{ m.heure | date:'HH:mm' }}</span>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <div class="empty" *ngIf="messages().length === 0">Aucun message pour le moment.</div>
+
+    <div #bottom></div>
+  </div>
+
+  <div class="loading" *ngIf="loading()">Chargement...</div>
+  <div class="uploading" *ngIf="uploading()">Envoi du fichier en cours...</div>
+
+  <div class="input-zone" *ngIf="!dossierFerme()">
+    <input #fileInput type="file" hidden (change)="onFileSelected($event)" />
+    <button class="attach-btn" type="button" (click)="ouvrirSelecteurFichier()" title="Joindre un fichier">📎</button>
+
+    <input
+      type="text"
+      [(ngModel)]="nouveauMessage"
+      placeholder="Écrire un message..."
+      (keydown.enter)="envoyer()" />
+
+    <button class="send-btn" (click)="envoyer()" [disabled]="!nouveauMessage.trim()">➤</button>
+  </div>
+
+</div>

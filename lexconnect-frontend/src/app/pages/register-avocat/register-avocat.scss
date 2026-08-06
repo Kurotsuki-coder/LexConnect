@@ -1,0 +1,90 @@
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F5F1E8;
+  font-family: 'Figtree', sans-serif;
+  padding: 1.5rem;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    color: #0F1B2E;
+    font-size: 1.5rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #8B96A8;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0F1B2E;
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #E5E0D4;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    background-color: #FAF8F3;
+  }
+
+  .info {
+    font-size: 0.78rem;
+    color: #8B96A8;
+    margin-top: 0.9rem;
+  }
+
+  .error {
+    color: #C0392B;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    background-color: #0F1B2E;
+    color: #C9A15A;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+
+    &:hover { opacity: 0.9; }
+  }
+
+  .footer-link {
+    text-align: center;
+    font-size: 0.8rem;
+    margin-top: 1.25rem;
+    color: #8B96A8;
+
+    a { color: #0F1B2E; font-weight: 700; text-decoration: none; }
+  }
+}

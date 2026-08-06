@@ -1,0 +1,131 @@
+<div class="page">
+
+
+  <div class="header">
+
+
+    <p class="eyebrow">
+      Messagerie
+    </p>
+
+
+    <h1>
+      Messages
+    </h1>
+
+
+    <p>
+      Échangez avec les citoyens liés à vos dossiers.
+    </p>
+
+
+  </div>
+
+
+
+
+  <p *ngIf="loading()">
+    Chargement...
+  </p>
+
+
+
+
+
+  <div class="threads" *ngIf="!loading()">
+
+
+
+
+
+    <a
+
+    *ngFor="let t of threads()"
+
+    [routerLink]="[
+      '/dashboard/avocat/messages',
+      t.id_dossier
+    ]"
+
+    class="thread"
+
+    >
+
+
+
+      <div class="avatar">
+
+        {{ initials(t) }}
+
+      </div>
+
+
+
+
+
+      <div class="body">
+
+
+        <p class="name">
+
+          {{ t.prenom }} {{ t.nom }}
+
+        </p>
+
+
+
+        <p class="preview">
+
+
+          {{ 
+            t.dernier_message ||
+            'Aucun message pour le moment.'
+          }}
+
+
+        </p>
+
+
+
+      </div>
+
+
+
+
+      <div class="arrow">
+
+        →
+
+      </div>
+
+
+
+
+    </a>
+
+
+
+
+
+
+
+    <div
+    class="empty"
+    *ngIf="threads().length===0">
+
+
+      <p>
+        Aucune discussion disponible.
+      </p>
+
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+</div>

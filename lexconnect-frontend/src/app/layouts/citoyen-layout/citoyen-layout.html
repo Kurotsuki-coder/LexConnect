@@ -1,0 +1,79 @@
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">⚖</span>
+      <span class="brand-name">LexConnect</span>
+    </div>
+
+    <a
+      routerLink="/dashboard/citoyen/profil"
+      class="profile-link"
+      title="Mon profil">
+      <div class="avatar">
+        {{ initials() }}
+      </div>
+      <div>
+        <p class="profile-name">
+          {{ nom() }}
+        </p>
+        <p class="profile-role">
+          Citoyen
+        </p>
+      </div>
+    </a>
+
+    <nav>
+      <a
+        routerLink="/dashboard/citoyen"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <span>🏠</span>
+        Tableau de bord
+      </a>
+
+      <a
+        routerLink="/dashboard/citoyen/dossiers"
+        routerLinkActive="active">
+        <span>📁</span>
+        Mes dossiers
+      </a>
+
+      <a
+        routerLink="/dashboard/citoyen/avocats"
+        routerLinkActive="active">
+        <span>⚖️</span>
+        Avocats
+      </a>
+
+      <a
+        routerLink="/dashboard/citoyen/messages"
+        routerLinkActive="active">
+        <span>💬</span>
+        Messages
+      </a>
+
+      <a
+        routerLink="/contact"
+        routerLinkActive="active">
+        <span>🆘</span>
+        Support
+      </a>
+    </nav>
+
+    <a
+      routerLink="/dashboard/citoyen/dossiers/nouveau"
+      class="new-dossier">
+      + Nouveau dossier
+    </a>
+
+    <button
+      class="logout"
+      (click)="logout()">
+      🚪 Se déconnecter
+    </button>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

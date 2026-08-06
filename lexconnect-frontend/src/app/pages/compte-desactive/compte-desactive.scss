@@ -1,0 +1,58 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F5F1E8;
+  font-family: 'Figtree', sans-serif;
+  padding: 1.5rem;
+}
+
+.container {
+  background: white;
+  border-radius: 15px;
+  padding: 2.5rem;
+  max-width: 440px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid #C0392B;
+}
+
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  color: #0F1B2E;
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+}
+
+.message {
+  color: #1F2328;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  background-color: #FDECEC;
+  border-radius: 8px;
+}
+
+.thanks {
+  color: #8B96A8;
+  font-size: 0.85rem;
+  margin: 0 0 1.5rem;
+}
+
+.btn-gold {
+  display: inline-block;
+  background-color: #0F1B2E;
+  color: #C9A15A;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+}

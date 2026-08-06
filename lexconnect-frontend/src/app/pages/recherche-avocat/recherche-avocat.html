@@ -1,0 +1,168 @@
+<div class="page">
+
+  <!-- HEADER -->
+
+  <div class="header">
+    <p class="eyebrow">Espace citoyen</p>
+
+    <h1>Trouver un avocat</h1>
+
+    <p class="subtitle">
+      Découvrez les avocats disponibles et trouvez le professionnel qui
+      correspond à vos besoins.
+    </p>
+  </div>
+
+  <!-- FILTRES -->
+
+  <div class="filters">
+
+    <!-- Recherche -->
+
+    <div class="search-box">
+
+      <span>🔎</span>
+
+      <input
+        type="text"
+        [(ngModel)]="query"
+        (ngModelChange)="loadAvocats()"
+        placeholder="Nom ou prénom d'un avocat..."
+      >
+
+    </div>
+
+    <!-- Région -->
+
+    <div class="region-box">
+
+      <span>📍</span>
+
+      <select
+        [(ngModel)]="region"
+        (change)="loadAvocats()">
+
+        <option value="">
+          Toutes les régions
+        </option>
+
+        <option
+          *ngFor="let r of regions"
+          [value]="r">
+
+          {{r}}
+
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <!-- CHARGEMENT -->
+
+  <p
+    class="loading"
+    *ngIf="loading()">
+
+    Chargement...
+
+  </p>
+
+  <!-- LISTE -->
+
+  <div
+    class="grid"
+    *ngIf="!loading()">
+
+    <div
+      class="card"
+      *ngFor="let a of avocats()">
+
+      <div class="avatar">
+        ⚖
+      </div>
+
+      <h2>
+
+        Me {{a.utilisateur.prenom}}
+        {{a.utilisateur.nom}}
+
+      </h2>
+
+      <p class="specialite">
+
+        {{a.profil?.specialites || 'Spécialité non renseignée'}}
+
+      </p>
+
+      <div
+        class="rating"
+        *ngIf="a.avis_count>0">
+
+        ⭐ {{a.avis_avg_note | number:'1.1-1'}}
+
+        <span>
+
+          ({{a.avis_count}} avis)
+
+        </span>
+
+      </div>
+
+      <p
+        class="no-rating"
+        *ngIf="a.avis_count===0">
+
+        Pas encore d'avis
+
+      </p>
+
+      <!-- REGION -->
+
+        <p class="region" *ngIf="a.utilisateur.region">
+        📍 {{a.utilisateur.region}}
+        </p>
+
+      <!-- DISPONIBILITE -->
+
+      <span
+        class="badge"
+        [ngClass]="a.profil?.disponibilite || 'disponible'">
+
+        {{dispoLabels[a.profil?.disponibilite || 'disponible']}}
+
+      </span>
+
+      <a
+        class="btn-details"
+        [routerLink]="['/dashboard/citoyen/avocats',a.id_avocat]">
+
+        Voir le profil
+
+      </a>
+
+    </div>
+
+    <div
+      class="empty"
+      *ngIf="avocats().length===0">
+
+      <h3>
+
+        Aucun avocat trouvé
+
+      </h3>
+
+      <p>
+
+        Essayez une autre recherche ou choisissez une autre région.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>

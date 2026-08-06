@@ -1,0 +1,84 @@
+<div class="page">
+
+<button class="back">
+← Retour
+</button>
+
+<div class="header" *ngIf="correspondant()">
+
+<div class="avatar">
+⚖️
+</div>
+
+<div>
+<h1>
+{{correspondant()?.prenom}} {{correspondant()?.nom}}
+</h1>
+<p>
+Conversation
+</p>
+</div>
+
+</div>
+
+
+<p *ngIf="loading()">
+Chargement...
+</p>
+
+
+<div class="chat" *ngIf="!loading()">
+
+
+<div
+class="bubble"
+*ngFor="let m of messages()"
+[ngClass]="{
+me:m.id_expediteur !== correspondant()?.id_utilisateur
+}">
+
+<p>
+{{m.contenu}}
+</p>
+
+<span>
+{{m.heure}}
+</span>
+
+</div>
+
+
+<p
+class="empty"
+*ngIf="messages().length===0">
+
+Aucun message.
+
+</p>
+
+
+</div>
+
+
+
+<div class="input-box">
+
+
+<input
+type="text"
+[(ngModel)]="message"
+placeholder="Écrire un message...">
+
+
+<button
+(click)="envoyer()">
+
+Envoyer
+
+</button>
+
+
+</div>
+
+
+</div>

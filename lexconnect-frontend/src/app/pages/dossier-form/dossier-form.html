@@ -1,0 +1,204 @@
+<div class="page">
+
+  <div class="header">
+
+    <p class="eyebrow">
+      Nouveau dossier
+    </p>
+
+    <h1>
+      Créer un dossier juridique
+    </h1>
+
+    <p class="subtitle">
+      Décrivez votre situation afin de trouver l'avocat adapté à votre besoin.
+    </p>
+
+  </div>
+
+
+
+  <form
+    (ngSubmit)="onSubmit()"
+    class="card-form">
+
+
+
+    <div class="form-section">
+
+      <h3>
+        Informations du dossier
+      </h3>
+
+
+      <label>
+        Motif du dossier
+      </label>
+
+
+      <input
+        type="text"
+        [(ngModel)]="motif"
+        name="motif"
+        required
+        placeholder="Ex : Divorce à l'amiable, licenciement contesté...">
+
+
+
+      <label>
+        Description des faits
+      </label>
+
+
+      <textarea
+        [(ngModel)]="description"
+        name="description"
+        rows="6"
+        placeholder="Décrivez les faits, les dates importantes, vos objectifs...">
+      </textarea>
+
+
+
+      <label>
+        Budget disponible (FCFA)
+      </label>
+
+
+      <input
+        type="number"
+        [(ngModel)]="budget"
+        name="budget"
+        placeholder="Ex : 150000">
+
+
+
+    </div>
+
+
+
+
+
+    <div class="form-section urgence">
+
+
+      <h3>
+        Niveau d'urgence
+      </h3>
+
+
+      <p>
+        Indiquez la priorité de votre demande.
+      </p>
+
+
+
+      <div class="urgency-grid">
+
+
+        <label
+          class="level low">
+
+          <input
+            type="radio"
+            [(ngModel)]="niveau_urgence"
+            name="niveau_urgence"
+            [value]="1">
+
+          <span>
+            Faible
+          </span>
+
+        </label>
+
+
+
+
+        <label
+          class="level normal">
+
+          <input
+            type="radio"
+            [(ngModel)]="niveau_urgence"
+            name="niveau_urgence"
+            [value]="2">
+
+          <span>
+            Normale
+          </span>
+
+        </label>
+
+
+
+
+
+        <label
+          class="level urgent">
+
+          <input
+            type="radio"
+            [(ngModel)]="niveau_urgence"
+            name="niveau_urgence"
+            [value]="3">
+
+          <span>
+            Urgente
+          </span>
+
+        </label>
+
+
+
+
+
+        <label
+          class="level critical">
+
+          <input
+            type="radio"
+            [(ngModel)]="niveau_urgence"
+            name="niveau_urgence"
+            [value]="4">
+
+          <span>
+            Critique
+          </span>
+
+        </label>
+
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+    <p
+      class="error"
+      *ngIf="errorMessage">
+
+      {{ errorMessage }}
+
+    </p>
+
+
+
+
+
+    <button
+      type="submit"
+      class="submit-btn">
+
+      Créer le dossier
+
+    </button>
+
+
+
+  </form>
+
+
+</div>

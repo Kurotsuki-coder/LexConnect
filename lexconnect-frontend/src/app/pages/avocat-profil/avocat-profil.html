@@ -1,0 +1,136 @@
+<div class="page">
+  <div class="header">
+    <p class="eyebrow">Mon profil</p>
+    <h1>Profil avocat</h1>
+    <p class="subtitle">Consultez les informations professionnelles de l'avocat.</p>
+  </div>
+
+  <p class="loading" *ngIf="loading()">Chargement...</p>
+
+  <div class="profile-card" *ngIf="!loading()">
+
+    <div class="profile-top">
+      <div class="avatar">{{initials}}</div>
+
+      <div class="identity">
+        <h2>Me {{prenom}} {{nom}}</h2>
+        <p>{{email}}</p>
+        <span class="badge" [ngClass]="disponibilite">
+          {{disponibilite==='disponible'?'Disponible':disponibilite==='en_pause'?'En pause':'En vacances'}}
+        </span>
+      </div>
+
+      <button class="btn-edit" *ngIf="isOwner && !editing()" (click)="modifier()">Modifier le profil</button>
+    </div>
+
+    <div class="info-grid" *ngIf="!editing()">
+      <div class="info">
+        <span>Spécialités</span>
+        <p>{{specialites || 'Non renseigné'}}</p>
+      </div>
+
+      <div class="info">
+        <span>Horaire</span>
+        <p>{{horaire || 'Non renseigné'}}</p>
+      </div>
+
+      <div class="info">
+        <span>Numéro de barreau</span>
+        <p>{{numero_barre || 'Non renseigné'}}</p>
+      </div>
+
+      <div class="info full">
+        <span>Biographie</span>
+        <p>{{bio || 'Aucune biographie renseignée.'}}</p>
+      </div>
+    </div>
+
+    <form class="edit-form" *ngIf="isOwner && editing()" (ngSubmit)="save()">
+      <label>Spécialités</label>
+      <input type="text" [(ngModel)]="specialites" name="specialites">
+
+      <label>Biographie</label>
+      <textarea rows="5" [(ngModel)]="bio" name="bio"></textarea>
+
+      <div class="grid">
+        <div>
+          <label>Disponibilité</label>
+          <select [(ngModel)]="disponibilite" name="disponibilite">
+            <option value="disponible">Disponible</option>
+            <option value="en_pause">En pause</option>
+            <option value="en_vacances">En vacances</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Horaire</label>
+          <input type="text" [(ngModel)]="horaire" name="horaire">
+        </div>
+      </div>
+
+      <label>Numéro de barreau</label>
+      <input type="text" [(ngModel)]="numero_barre" name="numero_barre">
+
+      <div class="actions">
+        <button type="button" class="btn-cancel" (click)="annuler()">Annuler</button>
+        <button type="submit" class="btn-save">Enregistrer</button>
+      </div>
+
+      <p class="saved" *ngIf="savedMessage()">{{savedMessage()}}</p>
+    </form>
+
+    <!-- ESPACE CITOYEN -->
+    <div class="request-card" *ngIf="!isOwner">
+      <h3>Envoyer une demande</h3>
+      <p>Sélectionnez le dossier que vous souhaitez confier à cet avocat.</p>
+
+      <label>Choisir un dossier</label>
+      <select [(ngModel)]="selectedDossier" name="dossier">
+        <option [ngValue]="null">Choisir un dossier</option>
+        <option *ngFor="let d of dossiers()" [value]="d.id_dossier">{{d.motif}}</option>
+      </select>
+
+      <button class="btn-send" (click)="envoyerDemande()" [disabled]="!selectedDossier">Envoyer la demande</button>
+
+      <p class="sent" *ngIf="sentMessage()">{{sentMessage()}}</p>
+    </div>
+
+    <!-- ZONE DANGEREUSE -->
+    <div class="danger-zone" *ngIf="isOwner">
+      <h3>Zone dangereuse</h3>
+      <p>La suppression de votre compte est définitive. Toutes vos informations professionnelles, vos dossiers et vos conversations seront supprimés. Cette action est irréversible.</p>
+      <button class="btn-delete" (click)="supprimerCompte()">{{deleteConfirm() ? 'Confirmer la suppression' : 'Supprimer mon compte'}}</button>
+    </div>
+
+    <!-- AVIS -->
+    <div class="avis-section">
+      <div class="avis-header">
+        <h3>Avis reçus</h3>
+        <div class="avis-summary" *ngIf="avisListe().length > 0">
+          <span class="avis-note">⭐ {{ avisMoyenne() }}</span>
+          <span class="avis-count">({{ avisListe().length }} avis)</span>
+        </div>
+      </div>
+
+      <p class="avis-loading" *ngIf="avisLoading()">Chargement des avis...</p>
+
+      <div class="avis-list" *ngIf="!avisLoading()">
+        <div class="avis-card" *ngFor="let a of avisAffiches()">
+          <div class="avis-top">
+            <span class="avis-auteur">{{ a.citoyen }}</span>
+            <span class="avis-stars">
+              <ng-container *ngFor="let i of [1,2,3,4,5]">{{ i <= a.note ? '★' : '☆' }}</ng-container>
+            </span>
+          </div>
+          <p class="avis-commentaire" *ngIf="a.commentaire">{{ a.commentaire }}</p>
+          <p class="avis-date" *ngIf="a.date">{{ a.date | date:'dd/MM/yyyy' }}</p>
+        </div>
+
+        <div class="avis-empty" *ngIf="avisListe().length === 0">Aucun avis pour le moment.</div>
+
+        <button class="btn-voir-plus" *ngIf="avisVisibles() < avisListe().length" (click)="voirPlusAvis()">Voir plus d'avis</button>
+      </div>
+    </div>
+
+  </div>
+</div>

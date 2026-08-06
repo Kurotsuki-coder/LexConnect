@@ -1,0 +1,27 @@
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-name">LexConnect</span>
+    </div>
+
+    <div class="profile-link">
+      <div class="avatar">{{ initials() }}</div>
+      <div>
+        <p class="profile-name">{{ nom() }}</p>
+        <p class="profile-role">Administrateur</p>
+      </div>
+    </div>
+
+  <nav>
+    <a routerLink="/dashboard/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Tableau de bord</a>
+    <a routerLink="/dashboard/admin/utilisateurs" routerLinkActive="active">Utilisateurs</a>
+    <a routerLink="/dashboard/admin/support" routerLinkActive="active">Support</a>
+  </nav>
+
+    <button class="logout" (click)="logout()">Se déconnecter</button>
+  </aside>
+
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

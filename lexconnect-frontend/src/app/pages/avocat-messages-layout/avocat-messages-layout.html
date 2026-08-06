@@ -1,0 +1,173 @@
+<div class="messages-page">
+
+<aside class="threads-panel">
+
+<div class="threads-header">
+
+<p class="eyebrow">Messagerie</p>
+
+<h2>Discussions</h2>
+
+</div>
+
+<div class="search-bar">
+
+<span class="search-icon">
+🔍
+</span>
+
+<input
+type="text"
+[ngModel]="query()"
+(ngModelChange)="query.set($event)"
+placeholder="Rechercher une discussion..." />
+
+</div>
+
+<p
+class="loading"
+*ngIf="loading()">
+
+Chargement...
+
+</p>
+
+<div
+class="threads-list"
+*ngIf="!loading()">
+
+<a
+*ngFor="let t of filteredThreads()"
+[routerLink]="[t.id_dossier]"
+routerLinkActive="active"
+class="thread">
+
+<div class="avatar">
+
+{{initials(t)}}
+
+</div>
+
+<div class="body">
+
+<div class="top-line">
+
+<p class="name">
+
+{{t.prenom}}
+{{t.nom}}
+
+</p>
+
+<span
+class="heure"
+*ngIf="t.heure">
+
+{{formatHeure(t.heure)}}
+
+</span>
+
+</div>
+
+<p class="preview">
+
+{{t.dernier_message || 'Commencer une conversation...'}}
+
+</p>
+
+</div>
+
+</a>
+
+<div
+class="empty"
+*ngIf="filteredThreads().length===0 && threads().length>0">
+
+<p class="empty-title">
+
+Aucun résultat
+
+</p>
+
+<p class="empty-body">
+
+Aucune discussion ne correspond à votre recherche.
+
+</p>
+
+</div>
+
+<div
+class="empty"
+*ngIf="threads().length===0">
+
+<div class="empty-icon">
+
+💬
+
+</div>
+
+<p class="empty-title">
+
+Aucune discussion
+
+</p>
+
+<p class="empty-body">
+
+Les conversations avec vos clients apparaîtront ici après l'acceptation d'un dossier.
+
+</p>
+
+</div>
+
+</div>
+
+</aside>
+
+<section
+class="conversation-panel"
+[class.has-selection]="hasSelection()">
+
+<router-outlet
+(activate)="hasSelection.set(true)"
+(deactivate)="hasSelection.set(false)">
+</router-outlet>
+
+<div
+class="placeholder"
+*ngIf="!hasSelection()">
+
+<div class="placeholder-card">
+
+<div class="placeholder-logo">
+
+💬
+
+</div>
+
+<h2>
+
+Messagerie Avocat
+
+</h2>
+
+<p>
+
+Sélectionnez une discussion dans la colonne de gauche pour commencer à échanger avec votre client.
+
+</p>
+
+<div class="placeholder-footer">
+
+🔒 Toutes les conversations sont sécurisées.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>

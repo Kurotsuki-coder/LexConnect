@@ -1,0 +1,25 @@
+<div class="page">
+  <p class="eyebrow">Support</p>
+  <h1>Messages reçus</h1>
+
+  <p *ngIf="loading()">Chargement...</p>
+
+  <div class="list" *ngIf="!loading()">
+    <div class="card" *ngFor="let c of contacts()" [class.nouveau]="c.statut === 'nouveau'">
+      <div class="card-top">
+        <div>
+          <p class="sujet">{{ c.sujet }}</p>
+          <p class="from">{{ c.nom }} — {{ c.email }}</p>
+        </div>
+        <span class="badge" [ngClass]="c.statut">{{ c.statut === 'nouveau' ? 'Nouveau' : 'Traité' }}</span>
+      </div>
+      <p class="message">{{ c.message }}</p>
+      <div class="actions">
+        <button class="btn-traiter" *ngIf="c.statut === 'nouveau'" (click)="traiter(c.id_contact)">Marquer comme traité</button>
+        <button class="btn-supprimer" (click)="supprimer(c.id_contact)">Supprimer</button>
+      </div>
+    </div>
+
+    <p class="empty" *ngIf="contacts().length === 0">Aucun message pour l'instant.</p>
+  </div>
+</div>
