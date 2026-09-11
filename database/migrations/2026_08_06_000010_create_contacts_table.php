@@ -16,8 +16,11 @@ return new class extends Migration
             $table->text('message');
             $table->string('statut')->default('nouveau');
             $table->unsignedBigInteger('id_utilisateur')->nullable();
-            $table->foreign('id_utilisateur')->references('id_utilisateur')->on('utilisateurs')->nullOnDelete();
             $table->timestamps();
+
+            $table->foreign('id_utilisateur')
+                ->references('id_utilisateur')->on('utilisateurs')
+                ->nullOnDelete();
         });
     }
 

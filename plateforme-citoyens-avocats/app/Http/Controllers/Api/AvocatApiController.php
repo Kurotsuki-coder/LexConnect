@@ -45,11 +45,10 @@ class AvocatApiController extends Controller
     }
 
 
-    // Affiche uniquement les demandes envoyées par les citoyens
+    // Affiche les demandes reçues (citoyen) ET les propositions envoyées (avocat)
     public function demandes()
     {
         $demandes=Auth::user()->avocat->demandes()
-            ->where('origine','citoyen')
             ->with([
                 'dossier:id_dossier,id_citoyen,motif,description,budget,statut_dossier,niveau_urgence',
                 'dossier.citoyen.utilisateur'
@@ -103,7 +102,6 @@ class AvocatApiController extends Controller
     {
         $estMonDossier=Demande::where('id_dossier',$dossier->id_dossier)
             ->where('id_avocat',Auth::user()->avocat->id_avocat)
-            ->where('origine','citoyen')
             ->where('statut_demande','acceptee')
             ->exists();
 
@@ -133,7 +131,6 @@ class AvocatApiController extends Controller
             'dossiers_en_cours'=>Dossier::whereIn(
                 'id_dossier',
                 $avocat->demandes()
-                    ->where('origine','citoyen')
                     ->where('statut_demande','acceptee')
                     ->pluck('id_dossier')
             )
@@ -143,7 +140,6 @@ class AvocatApiController extends Controller
             'dossiers_resolus'=>Dossier::whereIn(
                 'id_dossier',
                 $avocat->demandes()
-                    ->where('origine','citoyen')
                     ->where('statut_demande','acceptee')
                     ->pluck('id_dossier')
             )

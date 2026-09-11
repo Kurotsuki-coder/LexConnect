@@ -38,7 +38,7 @@ class Dossier extends Model
             'id_dossier'
         );
     }
-
+ 
     public function messages():HasMany
     {
         return $this->hasMany(

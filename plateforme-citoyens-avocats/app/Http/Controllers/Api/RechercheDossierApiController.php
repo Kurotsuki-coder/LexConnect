@@ -22,6 +22,6 @@ class RechercheDossierApiController extends Controller
             $query->where('niveau_urgence', $request->urgence);
         }
 
-        return response()->json($query->latest()->get());
+        return response()->json($query->latest('id_dossier')->get());
     }
 }

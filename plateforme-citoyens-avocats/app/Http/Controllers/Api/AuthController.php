@@ -77,13 +77,14 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        if (in_array($user->statut, ['suspendu', 'supprime', 'refuse'])) {
+        if (in_array($user->statut, ['suspendu', 'supprime', 'refuse', 'en_attente'])) {
             Auth::logout();
 
             $labels = [
                 'suspendu' => 'Ce compte a été suspendu',
                 'supprime' => 'Ce compte a été supprimé',
                 'refuse' => 'Cette inscription a été refusée',
+                'en_attente' => 'Votre inscription est en attente de validation par un administrateur',
             ];
 
             $message = $labels[$user->statut];

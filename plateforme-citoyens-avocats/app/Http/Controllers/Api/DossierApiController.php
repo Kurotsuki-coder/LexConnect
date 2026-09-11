@@ -13,7 +13,7 @@ class DossierApiController extends Controller
 {
     public function index()
     {
-        $dossiers=Auth::user()->citoyen->dossiers()->latest()->get();
+        $dossiers=Auth::user()->citoyen->dossiers()->latest('id_dossier')->get();
         return response()->json($dossiers);
     }
 
